@@ -11,18 +11,18 @@
     "templateVersion": "1.0.0"
   },
   "scripts": {
-    "preinstall": "node ../../kibana/preinstall_check",
-    "kbn": "node ../../kibana/scripts/kbn",
+    "preinstall": "node ../kibana/preinstall_check",
+    "kbn": "node ../kibana/scripts/kbn",
     "lint": "eslint **/*.js",
-    "start": "plugin-helpers start",
-    "test:server": "plugin-helpers test:server",
-    "test:browser": "plugin-helpers test:browser",
-    "build": "plugin-helpers build"
+    "start": "../kibana/packages/kbn-plugin-helpers/bin/plugin-helpers.js start",
+    "test:server": "../kibana/packages/kbn-plugin-helpers/bin/plugin-helpers.js test:server",
+    "test:browser": "../kibana/packages/kbn-plugin-helpers/bin/plugin-helpers.js test:browser",
+    "build": "../kibana/packages/kbn-plugin-helpers/bin/plugin-helpers.js build"
   },
   "devDependencies": {
-    "@elastic/eslint-config-kibana": "link:../../kibana/packages/eslint-config-kibana",
+    "@elastic/eslint-config-kibana": "link:../kibana/packages/eslint-config-kibana",
     "@elastic/eslint-import-resolver-kibana": "^0.9.0",
-    "@kbn/plugin-helpers": "link:../../kibana/packages/kbn-plugin-helpers",
+    "@kbn/plugin-helpers": "link:../kibana/packages/kbn-plugin-helpers",
     "babel-eslint": "^8.0.2",
     "eslint": "^4.11.0",
     "eslint-plugin-babel": "^4.1.1",

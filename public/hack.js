@@ -1,33 +1,41 @@
 import { uiModules } from 'ui/modules';
 import chrome from 'ui/chrome'
 
-const enabledParam = chrome.getUiSettingsClient().params.initialSettings["fixed-filter:enabled"]
-if (!enabledParam || enabledParam.userValue !== false) {
-  
-  let app = uiModules.get('hack/fixedFilter', ['kibana']);
+if (chrome.getUiSettingsClient()
+  && chrome.getUiSettingsClient().params
+  && chrome.getUiSettingsClient().params.initialSettings["fixed-filter:enabled"]) {
 
-  var fixmeTop; //$('filter-bar').offset().top;  // get initial position of the element
+  const enabledParam = chrome.getUiSettingsClient().params.initialSettings["fixed-filter:enabled"]
+  if (!enabledParam || enabledParam.userValue !== false) {
 
-  $(window).scroll(function() {                  // assign scroll event listener
+    let app = uiModules.get('hack/fixedFilter', ['kibana']);
 
-    if (!$('filter-bar').length)
-      return
+    var fixmeTop; //$('filter-bar').offset().top;  // get initial position of the element
+
+    $(window).scroll(function() {                  // assign scroll event listener
+
+      if (!$('filter-bar').length)
+        return
 
       fixmeTop = 70; //$('filter-bar').offset().top;
 
       var currentScroll = $(window).scrollTop(); // get current position
 
       if (currentScroll >= fixmeTop) {           // apply position: fixed if you
-        $('filter-bar').css({                      // scroll to that element or below it
-        position: 'fixed',
-        top: '0'
-      });
-    } else {                                   // apply position: static
-      $('filter-bar').css({                      // if you scroll above it
-        position: 'static'
-      });
-    }
-    
-  });
+        $('globalFilterBar').css({                      // scroll to that element or below it
+          position: 'fixed',
+          top: '0'
+        });
+      } else {                                   // apply position: static
+        $('globalFilterBar').css({                      // if you scroll above it
+          position: 'static'
+        });
+      }
+
+    });
+
+  }
 
 }
+
+
