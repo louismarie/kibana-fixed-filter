@@ -1,40 +1,40 @@
-import { uiModules } from 'ui/modules';
-import chrome from 'ui/chrome'
+import { npStart } from 'ui/new_platform';
 
-if (chrome.getUiSettingsClient()
-  && chrome.getUiSettingsClient().params
-  && chrome.getUiSettingsClient().params.initialSettings["fixed-filter:enabled"]) {
+const enabledParam = npStart.core.uiSettings.get('fixed-filter:enabled');
+if (enabledParam) {
 
-  const enabledParam = chrome.getUiSettingsClient().params.initialSettings["fixed-filter:enabled"]
-  if (!enabledParam || enabledParam.userValue !== false) {
+  console.log("filter bar plugin enabled !");
 
-    let app = uiModules.get('hack/fixedFilter', ['kibana']);
+  var fixmeTop; //$('filter-bar').offset().top;  // get initial position of the element
 
-    var fixmeTop; //$('filter-bar').offset().top;  // get initial position of the element
+  $(window).scroll(function() {                  // assign scroll event listener
 
-    $(window).scroll(function() {                  // assign scroll event listener
+    if (!$('.globalFilterGroup').length) {
+      console.log("filter bar not detected");
+      return;
+    }
 
-      if (!$('filter-bar').length)
-        return
+    fixmeTop = 70; //$('filter-bar').offset().top;
 
-      fixmeTop = 70; //$('filter-bar').offset().top;
+    var currentScroll = $(window).scrollTop(); // get current position
 
-      var currentScroll = $(window).scrollTop(); // get current position
+    if (currentScroll >= fixmeTop) {
+      console.log("filter bar fixed");
+      // apply position: fixed if you
+      $('.globalFilterGroup').css({                      // scroll to that element or below it
+        position: 'fixed',
+        top: '50px',
+        'z-index': '350',
+      });
+    } else {
+      console.log("filter bar static");
+      // apply position: static
+      $('.globalFilterGroup').css({                      // if you scroll above it
+        position: 'static'
+      });
+    }
 
-      if (currentScroll >= fixmeTop) {           // apply position: fixed if you
-        $('globalFilterBar').css({                      // scroll to that element or below it
-          position: 'fixed',
-          top: '0'
-        });
-      } else {                                   // apply position: static
-        $('globalFilterBar').css({                      // if you scroll above it
-          position: 'static'
-        });
-      }
-
-    });
-
-  }
+  });
 
 }
 
